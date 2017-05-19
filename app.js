@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 //cargar RUTAS
+var user_routes = require('./routes/user');
 
 app.use(bodyParser.urlencoded({extended:false})); //Necesario para q bodyParser ande
 app.use(bodyParser.json()); //convierto a obj JSON lo que viene en las peticiones
@@ -13,9 +14,6 @@ app.use(bodyParser.json()); //convierto a obj JSON lo que viene en las peticione
 //configurar cabeceras HTTP
 
 //rutas base
-
-app.get('/pruebas',function(req,res){
-	res.status(200).send({message:'Flaca petera'});
-});
+app.use('/api',user_routes);
 
 module.exports = app;
