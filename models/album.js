@@ -1,6 +1,6 @@
 'use strict'
 
-var mongoose = require('require');
+var mongoose = require('mongoose');
 var schema = mongoose.Schema;
 
 var albumSchema = schema ({
