@@ -100,10 +100,44 @@ function updateUser(req,res){
 	});
 }
 
+function uploadImage(req,res){
+//Metodo para subir ficheros
+	var userId = req.params.id; 
+	var file_name = 'Imagen no subida'; //por defecto
+
+	if(req.files){
+		var file_path = req.files.image.path;
+		var file_split = file_path.split('/'); //recortar la direc de la img
+		var file_name = file_split[2]; //elegimos solo el nombre
+
+		var ext_split = file_name.split('.'); //separo el nombre de la extension
+		var file_ext = ext_split[1]; //me quedo con la extension
+
+		if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'gif'){
+			User.findByIdAndUpdate(userId, {image: file_name},(err,userUpdated) => {
+				if(err){
+					res.status(500).send({message:'Error al actualizar la imagen'});
+				}else{
+					if(!userUpdated){
+						res.status(404).send({message:'No se ha podido actualizar el usuario'});
+					}else{
+						res.status(200).send({user: userUpdated});
+					}
+				}
+			});
+		}else{
+			res.status(200).send({message: 'Extension del archivo invalida'});
+		}
+	}else{
+		res.status(200).send({message: 'No has subido ninguna imagen'});
+	}
+}
+
 module.exports = {
 	pruebas,
 	saveUser,
 	loginUser,
-	updateUser
+	updateUser,
+	uploadImage
 	//mas metodos
 };
