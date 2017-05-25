@@ -8,7 +8,7 @@ var songSchema = schema ({
 	name: String,
 	duration: String,
 	file: String,	
-	album: {type: Schema.ObjectId, ref: 'album'}
+	album: {type: schema.ObjectId, ref: 'album'}
 
 });
 
