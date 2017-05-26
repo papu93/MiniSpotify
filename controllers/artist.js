@@ -8,7 +8,8 @@ var Artist = require('../models/artist');
 var Album = require('../models/album');
 var Song = require('../models/song');
 
-function getArtist(req,res){
+function getArtist(req,res){ 
+	//Busca un artista dado un ID
 	var artistId = req.params.id;
 
 	Artist.findById(artistId,(err,artist) => {
@@ -35,6 +36,7 @@ function getArtists(req,res){
 	var itemsPerPage = 2; 
 
 	//la funcion sort ordena los jugadores por un atributo
+	//la funcion paginate configura los items en las paginnas
 	Artist.find().sort('name').paginate(page,itemsPerPage,function(err,artists,totalItems){
 		if(err){
 			res.status(500).send({message:'Error en la peticion'});
@@ -73,8 +75,26 @@ function saveArtist(req,res){
 	});
 }
 
+function updateArtist(req,res){
+	var artistId = req.params.id;
+	var update = req.body;
+
+	Artist.findByIdAndUpdate(artistId,update,function(err,artistUpdated){
+		if(err){
+			res.status(500).send({message:'Error al modificar el artista'});
+		}else{
+			if(!artistUpdated){
+				res.status(404).send({message:'El artista no ha sido actualizado'});
+			}else{
+				res.status(200).send({artist: artistUpdated});
+			}
+		}
+	});
+}
+
 module.exports = {
 	getArtist,
 	getArtists,
-	saveArtist
+	saveArtist,
+	updateArtist
 }
