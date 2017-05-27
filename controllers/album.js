@@ -9,7 +9,42 @@ var Album = require('../models/album');
 var Song = require('../models/song');
 
 function getAlbum(req,res){ 
-	res.status(200).send({message: 'Accion getAlbum'});
+	var albumId = req.params.id;
+
+	//populate carga los datos del artista que esta asociado al album
+	Album.findById(albumId).populate({path: 'artist'}).exec((err,album)=> {
+		if(err){
+			res.status(500).send({message: 'Error en la busqueda del album'});
+		}else{
+			if(!album){
+				res.status(404).send({message: 'El album no existe'});
+			}else{
+				res.status(200).send({album});
+			}
+		}
+	});
+}
+
+function getAlbums(req,res){
+	var artistId = req.params.artist;
+
+	var find;
+	if(!artistId){ //Sacar todos los albunes de la BD
+		find = Album.find({}).sort('title');
+	}else{ 	//Sacar los albums de ese artista
+		find = Album.find({artist: artistId}).sort('year');
+	}
+	find.populate({path: 'artist'}).exec(function(err,albums){
+		if(err){
+			res.status(500).send({message: 'Error al buscar los albums'});
+		}else{
+			if(!albums){
+				res.status(404).send({message: 'No hay albums'});
+			}else{
+				res.status(200).send({albums});
+			}
+		}
+	});
 }
 
 function saveAlbum(req,res){
@@ -35,7 +70,26 @@ function saveAlbum(req,res){
 	});
 }
 
+function updateAlbum(req,res){
+	var albumId = req.params.id;
+	var update = req.body;
+
+	Album.findByIdAndUpdate(albumId, update, function(err,albumUpdated){
+		if(err){
+			res.status(500).send({message: 'Error al actualizar el album'});
+		}else{
+			if(!albumUpdated){
+				res.status(404).send({message: 'No se ha actualizado el album'});
+			}else{
+				res.status(200).send({album:albumUpdated});
+			}
+		}
+	});
+}
+
 module.exports = {
 	getAlbum,
-	saveAlbum
+	getAlbums,
+	saveAlbum,
+	updateAlbum
 }
