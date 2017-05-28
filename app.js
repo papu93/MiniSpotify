@@ -15,6 +15,14 @@ app.use(bodyParser.urlencoded({extended:false})); //Necesario para q bodyParser 
 app.use(bodyParser.json()); //convierto a obj JSON lo que viene en las peticiones
 
 //configurar cabeceras HTTP
+app.use(function(req,res,next){ //Configuracion para que ande AJAX
+	res.header('Access-Control-Allow-Origin','*');
+	res.header('Access-Control-Allow-Headers','Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+	res.header('Access-Control-Allow-Method', 'GET, POST, OPTIONS, PUT, DELETE');
+	res.header('Allow','GET, POST, OPTIONS, PUT, DELETE');
+
+	next();
+});
 
 //rutas base
 app.use('/api',user_routes);
