@@ -4,6 +4,6 @@ export class Song{
 		public name: string,
 		public duration: string,
 		public file: string,
-		pubic album: string
+		public album: string
 	){}
 }
