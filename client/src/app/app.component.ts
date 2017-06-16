@@ -14,4 +14,8 @@ export class AppComponent {
   constructor(){ //creamos el objeto vacio para cuando llene los datos tenga donde guardarlo
   	this.user = new User('','','','','','ROLE_USER','');
   }
+
+  public onSubmit(){
+  	console.log(this.user);
+  }
 }
