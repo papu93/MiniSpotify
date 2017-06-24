@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   public identity; //comprobar los datos del usuario logueado
   public token; //junto con identity se guardan en el localStorage
   public errorMessage;
+  public alertRegister;
 
   constructor(
   	private _userService: UserService
@@ -28,11 +29,6 @@ export class AppComponent implements OnInit {
     //Sacamos los datos almacenados en el localStorage
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
-
-    console.log("**************************");
-    console.log(this.identity);
-    console.log(this.token);
-    console.log("**************************");
   }
 
   public onSubmit(){
@@ -102,5 +98,28 @@ export class AppComponent implements OnInit {
 
   onSubmitRegister(){
     console.log(this.user_register);
+
+    this._userService.register(this.user_register).subscribe(
+      response => {
+        let user = response.user;
+        this.user_register = user;
+
+        if(!user._id){
+          this.alertRegister = 'Error al registrarse';
+        }else{
+          this.alertRegister = 'El registro se realizado correctamente, identificate con: '+this.user_register.email;
+          this.user_register = new User('', '', '', '', '', 'ROLE_USER', ''); //vaciamos la variable para futuros registros
+        }
+
+      }, error => { //Si hay error en la respuesta
+        var errorMessage = <any>error;
+
+        if (errorMessage != null) {
+          var body = JSON.parse(error._body);
+          this.alertRegister = body.message;
+          console.log(error);
+        }
+      }
+    );
   }
 }

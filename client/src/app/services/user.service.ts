@@ -18,15 +18,21 @@ export class UserService{
 		if(gethash != null){
 			user_to_login.gethash = gethash; //Si no es null, la cargamos
 		}
-		let json = JSON.stringify(user_to_login); //convertimos a string
-		let params = json;
-
+		let params = JSON.stringify(user_to_login); //convertimos a string
 		let headers = new Headers({'Content-Type':'application/json'});
 
 		return this._http.post(this.url+'login',params, {headers: headers})
-				.map(res => res.json());
+						 .map(res => res.json());
 				//llamamos al metodo login del Api Rest
 				//lo que nos devuelve el servidor lo convertimos en JSON
+	}
+
+	register(user_to_register){
+		let params = JSON.stringify(user_to_register); //convertimos a string
+		let headers = new Headers({ 'Content-Type': 'application/json' });
+
+		return this._http.post(this.url + 'register', params, { headers: headers })
+						 .map(res => res.json());
 	}
 
 	getIdentity() {
