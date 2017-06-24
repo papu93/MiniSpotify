@@ -58,9 +58,7 @@ export class AppComponent implements OnInit {
 			  			}else{
 			  				//Crear elemento de la sesion en el local storage del token
                 localStorage.setItem('token', token);
-
-			  				console.log(token);
-			  				console.log(identity);
+                this.user = new User('', '', '', '', '', 'ROLE_USER', ''); //para vaciar  la variable
 			  			}
 			  		},	
 			  		error => {
