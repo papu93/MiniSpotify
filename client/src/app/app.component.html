@@ -10,10 +10,14 @@
 	<p>Estas logueado en la aplicacion</p>
 </div>
 
-<div class="col-lg-12">
+<div class="col-lg-12" *ngIf="!identity">
 	<div class="col-lg-6">
 		<h1>Identificate</h1>
-
+		<div *ngIf="errorMessage">
+			<div class="alert alert-info">
+			  <strong>Error!</strong> {{errorMessage}}
+			</div>
+		</div>
 		<form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-7" ngNativeValidate>
 			<p>
 				<label>Correo electronico:</label>

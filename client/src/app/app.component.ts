@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   public user: User;
   public identity; //comprobar los datos del usuario logueado
   public token; //junto con identity se guardan en el localStorage
+  public errorMessage;
 
   constructor(
   	private _userService: UserService
@@ -21,9 +22,59 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
+
   }
 
   public onSubmit(){
   	console.log(this.user);
+
+  	//conseguir los datos del usuario identificado
+  	//subscribe recibe 2 parametros, response y error
+  	this._userService.signUp(this.user).subscribe(
+  		response => { //Si la respuesta se devuelve correctamente
+  			let identity = response.user; //guardamos el usuario que se logueo
+  			this.identity = identity; 
+
+  			if(!this.identity._id){
+  				alert("El usuario no esta correctamente identificado");
+  			}else{  //Crear elemento de la sesion en el local storage
+
+  				//conseguir el token para enviarselo a cada peticion Http, hacer lo mismo pero con el token
+				  this._userService.signUp(this.user, 'true').subscribe(
+			  		response => {
+			  			let token = response.token; //guardamos el token del usuario logueado
+			  			this.token = token; 
+
+			  			if(this.token.length <=0){
+			  				alert("El token se ha generado correctamente");
+			  			}else{
+			  				//Crear elemento de la sesion en el local storage del token
+
+			  				console.log(token);
+			  				console.log(identity);
+			  			}
+			  		},	
+			  		error => {
+			  			var errorMessage = <any>error;
+
+			  			if(errorMessage != null){
+			  				var body = JSON.parse(error._body);
+			  				this.errorMessage = body.message;
+			  				console.log(error);
+			  			}
+			  		}
+			  	);
+  			}
+  		},	
+  		error => { //Si hay error en la respuesta
+  			var errorMessage = <any>error;
+
+  			if(errorMessage != null){
+  				var body = JSON.parse(error._body);
+  				this.errorMessage = body.message;
+  				console.log(error);
+  			}
+  		}
+  	);
   }
 }
