@@ -11,6 +11,7 @@ import { User } from './models/user';
 export class AppComponent implements OnInit {
   public title = 'MiniSpotify';
   public user: User;
+  public user_register: User;
   public identity; //comprobar los datos del usuario logueado
   public token; //junto con identity se guardan en el localStorage
   public errorMessage;
@@ -19,6 +20,8 @@ export class AppComponent implements OnInit {
   	private _userService: UserService
   	){ 
   	this.user = new User('','','','','','ROLE_USER',''); //creamos el objeto vacio para cuando llene los datos tenga donde guardarlo
+    this.user_register = new User('', '', '', '', '', 'ROLE_USER', ''); 
+
   }
 
   ngOnInit(){
@@ -95,5 +98,9 @@ export class AppComponent implements OnInit {
 
     this.identity = null; //Con esto volvemos a las vistas publicas de la app
     this.token = null;
+  }
+
+  onSubmitRegister(){
+    console.log(this.user_register);
   }
 }
