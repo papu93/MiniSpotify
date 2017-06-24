@@ -87,4 +87,13 @@ export class AppComponent implements OnInit {
   		}
   	);
   }
+
+  logout(){
+    localStorage.removeItem('identity');
+    localStorage.removeItem('token');
+    localStorage.clear(); //Elimina todo lo que hay en el localStorage
+
+    this.identity = null; //Con esto volvemos a las vistas publicas de la app
+    this.token = null;
+  }
 }
