@@ -89,6 +89,10 @@ function updateUser(req,res){
 	var userId = req.params.id;
 	var update = req.body;
 
+	if(userId != req.user.sub) { //Comparo el id con el id que esta en el token que se decodifica
+		return res.status(500).send({message:'No tienes permiso para actualizar este usuario'});
+	}
+
 	User.findByIdAndUpdate(userId,update,(err,userUpdated) => {
 		if(err){
 			res.status(500).send({message:'Error al actualizar el usuario'});
