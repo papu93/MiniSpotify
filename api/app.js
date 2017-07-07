@@ -18,7 +18,7 @@ app.use(bodyParser.json()); //convierto a obj JSON lo que viene en las peticione
 app.use(function(req,res,next){ //Configuracion para que ande AJAX
 	res.header('Access-Control-Allow-Origin','*');
 	res.header('Access-Control-Allow-Headers','Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-	res.header('Access-Control-Allow-Method', 'GET, POST, OPTIONS, PUT, DELETE');
+	res.header('Access-Control-Allow-Methods','GET, POST, OPTIONS, PUT, DELETE');
 	res.header('Allow','GET, POST, OPTIONS, PUT, DELETE');
 
 	next();
