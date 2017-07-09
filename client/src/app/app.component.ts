@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './services/user.service';
 import { User } from './models/user'; 
+import { GLOBAL } from './services/global';
 
 @Component({
   selector: 'app-root',
@@ -16,13 +17,14 @@ export class AppComponent implements OnInit {
   public token; //junto con identity se guardan en el localStorage
   public errorMessage;
   public alertRegister;
+  public url: string;
 
   constructor(
   	private _userService: UserService
   	){ 
   	this.user = new User('','','','','','ROLE_USER',''); //creamos el objeto vacio para cuando llene los datos tenga donde guardarlo
     this.user_register = new User('', '', '', '', '', 'ROLE_USER', ''); 
-
+  this.url = GLOBAL.url;
   }
 
   ngOnInit(){
