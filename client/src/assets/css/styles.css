@@ -4,6 +4,11 @@ html, body{
 	background: #eee;
 }
 
+.actived{
+	border-bottom: 4px solid #84BD00; /*color linea de abajo*/
+	padding-bottom: 4px;
+}
+
 .head-title{
 	font-size: 20px;
 	font-weight: bold; /*negrita*/
