@@ -84,6 +84,8 @@ export class UserEditComponent implements OnInit{
 	}
 
 	makeFileRequest(url: string, params: Array<string>, files:Array<File>) {
+		var token = this.token;
+
 		/*Una promesa indica hacer algo, de manera asincrona */
 		return new Promise(function(resolve, reject) {
 			/*Recibe un callback con 2 parametros, si todo sale bien se hace el resolve, sino el reject(rechazado)*/
@@ -106,7 +108,7 @@ export class UserEditComponent implements OnInit{
 			}
 
 			xhr.open('POST', url, true); //inicializa la solicitud
-			xhr.setRequestHeader('Authorization', this.token); //agregamos la autorizacion a la solicitud
+			xhr.setRequestHeader('Authorization', token); //agregamos la autorizacion a la solicitud
 			xhr.send(formData);  //Relizamos la solicitud
 		});
 	}
